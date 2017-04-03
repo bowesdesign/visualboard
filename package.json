@@ -1,0 +1,22 @@
+{
+  "name": "visualboard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bowesdesign/visualboard.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bowesdesign/visualboard/issues"
+  },
+  "homepage": "https://github.com/bowesdesign/visualboard#readme",
+  "dependencies": {
+    "http-server": "^0.9.0"
+  }
+}
