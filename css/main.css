@@ -1,0 +1,102 @@
+body {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-weight: 400; }
+
+article {
+  display: none;
+  height: 100vh; }
+  article.current {
+    display: flex; }
+  article.newFaces section {
+    background-color: #286FAD; }
+  article.helps section {
+    background-color: #734191; }
+  article.interestings section {
+    background-color: #EF5A5A; }
+  article.events section {
+    background-color: #00AF9F; }
+  article.interestings.more section {
+    background-color: #DC5252;
+    text-align: center; }
+
+section {
+  flex: 1;
+  background-color: #444;
+  overflow-y: scroll; }
+  section > .padding-hack {
+    padding: 30px 7%; }
+  section p {
+    color: #fff;
+    opacity: .9;
+    font-size: 2.8em;
+    line-height: 1.4em; }
+  section cite {
+    color: #fff;
+    opacity: .6;
+    font-size: 1.6em;
+    letter-spacing: -.01em;
+    font-style: italic; }
+  section h1 {
+    color: #fff;
+    font-size: 7.8em;
+    line-height: 1.1em;
+    letter-spacing: -.01em;
+    margin: .2em 0; }
+  section h3 {
+    color: #000;
+    opacity: .3;
+    font-size: 1.2em;
+    letter-spacing: .1em;
+    text-transform: uppercase; }
+  section::-webkit-scrollbar {
+    width: 8px;
+    background-color: rgba(255, 255, 255, 0.1); }
+  section::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); }
+
+aside {
+  flex: 1;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #444; }
+
+.newFaces .image-1 {
+  background-image: url("../img/newFaces/nf-01.jpg");
+  background-color: #333; }
+.newFaces .image-2 {
+  background-image: url("../img/newFaces/nf-02.jpg");
+  background-color: #333; }
+.newFaces .image-3 {
+  background-image: url("../img/newFaces/nf-03.jpg");
+  background-color: #333; }
+
+.helps .image-1 {
+  background-image: url("../img/helps/helps-01.jpg");
+  background-color: #333; }
+.helps .image-2 {
+  background-image: url("../img/helps/helps-02.gif");
+  background-color: #333; }
+.helps .image-3 {
+  background-image: url("../img/helps/helps-03.gif");
+  background-color: #333; }
+
+.interestings .image-1 {
+  background-image: url("../img/interestings/int-01.jpg");
+  background-color: #333; }
+.interestings .image-2 {
+  background-image: url("../img/interestings/int-02.gif");
+  background-color: #333; }
+.interestings .image-3 {
+  background-image: url("../img/interestings/int-03.gif");
+  background-color: #333; }
+
+.events .image-1 {
+  background-image: url("../img/events/event-01.gif");
+  background-color: #333; }
+.events .image-2 {
+  background-image: url("../img/events/event-02.gif");
+  background-color: #333; }
+.events .image-3 {
+  background-image: url("../img/events/event-03.jpg");
+  background-color: #333; }

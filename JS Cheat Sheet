@@ -1,0 +1,135 @@
+Variables
+----------
+var something = 1;
+
+Strings
+-----------
+var foo = "hello";
+var bar = 'also use single quotes is fine';
+
+Functions
+-----------
+define a function with a name or put it in a variable
+
+function addTwoNumbers(a, b) {
+	return a + b;
+}
+
+var addTwoNumbers = function(a, b) {
+	return a + b;
+}
+
+function() {
+	//no arg function
+}
+
+var noArgFunction = function() {
+	//no args here
+}
+
+variables you create in a function body inside the {}'s are only visible for that function -- this is good
+
+functions can take 0 or more arguments (parameters) comma separated inside their ()
+
+use a function to have repeatable logic (would take inputs) or to just package some statements together nicely for use somewhere else (would not take inputs)
+
+to call a function (to invoke it and get a value back), put () after the name
+
+var threePlusFive = addTwoNumbers(3, 5);
+
+remember, when you call a function, you can pass in variables as the inputs for that function.
+
+var seven = 7;
+var nine = 9;
+var result = addTwoNumbers(seven, nine); // returns 16 and assigns that to 'result' variable
+
+
+Working with an Array (list) of values
+---------------------
+var arr = ['foo', 'bar', 'baz'];
+var anotherArr = [1, 2, 'something', 3.45, arr];
+
+An array is just a list of data that you can get at in order based on its index (position)
+
+Array indexes start at 0 and go to array.length - 1
+
+// get an array's length
+arr.length // 3
+
+// get a value from a position in the array
+arr[0] // 'foo' - indexed at 0
+arr[2] // 'baz'
+arr[99] // null (nothing over 2 is a valid index above)
+
+// you can also access an aray element using a variable that holds a valid index value
+var arr = ['foo', 'bar', 'baz'];
+var i = 0;
+arr[i] // 'foo'
+var i = 1;
+arr[i] // 'bar'
+
+// doing something for each element in an array
+for (var i=0; i<arr.length; i++) {
+	console.log('this loop index is: ' + i);
+	console.log('the value inside the array at the index is: ' + arr[i]);
+}
+
+
+Controlling program flow
+------------------
+
+When you want to do one of two things depending on some check, use an if statement
+
+var a = 4;
+
+// first, it checks the part inside the ()'s
+if (a < 5) {
+    // if that expression is true,	
+	// this will happen
+}
+else {
+	// otherwise, this would happen if a were not less than 5
+	// else is optional BTW
+}
+
+
+Randomness
+-----------------------
+
+Math.random()  is a function that returns a random decimal number between 0 and 1 like 0.463463634677
+
+Math.floor(n) is a function that takes a number and rounds it down to the nearest integer (good for indexing an array at =-) 
+
+you can combine this knowledge to get a random valid index for an array with this:
+
+var values = ['a', 'b', 'c'];
+var randomIndex = Math.floor(Math.random() * values.length);
+var randomValue = values[randomIndex];
+
+
+
+DOM
+--------------
+
+Finding elements with a CSS selector
+
+var elements = document.querySelectorAll('body p.someClass') 
+// get all p tags that have someClass and descend from body
+// returns a list of elements
+
+
+Adding / Removing / Getting class names
+
+var element = elements[0]; //assuming elements above
+element.classList //returns the list ['class-a', 'class-b']
+element.classList.add('someClass') //no return
+element.classList.remove('someClass') //no return
+element.classList.contains('someClass') //returns true or false
+
+
+Attaching an event listener
+
+document.addEventListener("someEventString", functionToTriggerOnEvent);
+//someEventString could be 'keypress', or 'click', etc. 
+
+

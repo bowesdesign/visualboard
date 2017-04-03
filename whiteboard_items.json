@@ -1,0 +1,94 @@
+{
+  "New face": [
+    {
+      "id": 63031,
+      "title": "John Smith",
+      "description": null,
+      "kind": "New face",
+      "post_id": null,
+      "public": false,
+      "bumped": false,
+      "created_at": "2016-11-27T17:15:57.000+08:00",
+      "updated_at": "2016-11-27T17:15:57.000+08:00",
+      "standup_id": 90,
+      "date": "2016-11-27",
+      "author": null
+    }
+  ],
+  "Help": [
+    {
+      "id": 55276,
+      "title": "Missing bowls",
+      "description": "Please return the 2 small bowls from breakfast last week.",
+      "kind": "Help",
+      "post_id": null,
+      "public": false,
+      "bumped": false,
+      "created_at": "2016-10-18T09:19:09.000+08:00",
+      "updated_at": "2016-10-18T09:19:09.000+08:00",
+      "standup_id": 90,
+      "date": "2016-10-18",
+      "author": ""
+    }
+  ],
+  "Interesting": [
+    {
+      "id": 55285,
+      "title": "So You Want To Learn Physics",
+      "description": "http://www.susanjfowler.com/blog/2016/8/13/so-you-want-to-learn-physics\\r\\n\\r\\nAn outline of what everyone needs to learn in order to really understand physics. ",
+      "kind": "Interesting",
+      "post_id": null,
+      "public": false,
+      "bumped": false,
+      "created_at": "2016-10-18T09:47:20.000+08:00",
+      "updated_at": "2016-10-18T09:49:21.000+08:00",
+      "standup_id": 90,
+      "date": "2016-10-18",
+      "author": "Daryl"
+    }
+  ],
+  "Event": [
+    {
+      "id": 54946,
+      "title": "Emacs Meetup",
+      "description": "",
+      "kind": "Event",
+      "post_id": null,
+      "public": false,
+      "bumped": false,
+      "created_at": "2016-10-17T10:46:42.000+08:00",
+      "updated_at": "2016-10-17T10:46:42.000+08:00",
+      "standup_id": 90,
+      "date": "2016-10-19",
+      "author": "Jason"
+    },
+    {
+      "id": 55279,
+      "title": "Global Day of Code Retreat (at Paypal)",
+      "description": "",
+      "kind": "Event",
+      "post_id": null,
+      "public": false,
+      "bumped": false,
+      "created_at": "2016-10-18T09:19:51.000+08:00",
+      "updated_at": "2016-10-18T09:20:08.000+08:00",
+      "standup_id": 90,
+      "date": "2016-10-25",
+      "author": "Abhaya"
+    },
+    {
+      "id": 53023,
+      "title": "Halloween!! (Be in costume!) ",
+      "description": "",
+      "kind": "Event",
+      "post_id": null,
+      "public": false,
+      "bumped": false,
+      "created_at": "2016-10-06T09:17:52.000+08:00",
+      "updated_at": "2016-10-06T09:17:52.000+08:00",
+      "standup_id": 90,
+      "date": "2016-10-31",
+      "author": "Daryl"
+    }
+  ]
+}
