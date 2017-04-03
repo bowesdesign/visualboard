@@ -1,4 +1,4 @@
-var URL_FOR_WHITEBOARD_ITEMS = "http://localhost:8080/data";
+var URL_FOR_WHITEBOARD_ITEMS = "/data";
 // var URL_FOR_WHITEBOARD_ITEMS = "whiteboard_items.json";
 
 //All the things that do work
