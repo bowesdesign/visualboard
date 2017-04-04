@@ -1,4 +1,5 @@
 # Start the app
+1. `brew update`
 1. `brew install node`
 1. `npm install`
 1. `npm start`
