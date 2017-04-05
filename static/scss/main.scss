@@ -3,12 +3,11 @@ body {
   font-weight: 400;
 }
 
-
 article {
   display: none;
   height: 100vh;
 
-  &.current{
+  &.current {
     display: flex;
   }
   &.newFaces {
@@ -31,7 +30,7 @@ article {
       background-color: #00AF9F;
     }
   }
-  &.interestings.more{
+  &.interestings.more {
     section {
       background-color: #DC5252;
       text-align: center;
@@ -78,11 +77,11 @@ section {
 
   &::-webkit-scrollbar {
     width: 8px;
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0, 0, 0, 0.2);
   }
 }
 
@@ -93,7 +92,6 @@ aside {
   background-repeat: no-repeat;
   background-color: #444;
 }
-
 
 .newFaces {
 
@@ -170,3 +168,85 @@ aside {
   }
 
 }
+
+.flex-container {
+  display: flex;
+  align-items: center; /* Vertical center alignment */
+  justify-content: center; /* Horizontal center alignment */
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.clapInner {
+  background-color: #00253e;
+}
+
+.countdown {
+  background-color: #00AF9F;
+}
+
+.countdownInner {
+  background-color: #00AF9F;
+
+  .flex-item {
+    top: -90px;
+    position: relative;
+  }
+}
+
+//.countdownInner {
+//  animation-name: pulse;
+//  animation-duration: 7s;
+//  animation-timing-function: ease-in-out;
+//  animation-delay: 0s;
+//  animation-iteration-count: infinite;
+//  animation-play-state: running;
+//}
+
+//@keyframes pulse {
+//  0% {
+//    background-color: rgba(#00253e,1);
+//  }
+//  50% {
+//    background-color: rgba(#00253e,0.6);
+//  }
+//  100% {
+//    background-color: rgba(#00253e,1);
+//  }
+//}
+
+.countNumbers {
+  display: inline-block;
+  width: inherit;
+}
+
+.flip-clock-wrapper {
+  font-size: 1rem;
+  transform: scale(3);
+  padding-top: 40px;
+
+  .flip-clock-label {
+    color: #fff;
+    display: none;
+  }
+
+  ul li a div div.inn {
+    text-shadow: none;
+    color: #eee;
+  }
+
+  .flip-clock-dot {
+    box-shadow: none;
+  }
+
+  .flip {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  }
+}
+
+//.flip-clock-divider .flip-clock-label {
+//  color: #ffffff;
+//  font-size: 1rem;
+//}

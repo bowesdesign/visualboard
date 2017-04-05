@@ -83,12 +83,12 @@ function generateArticle(data, articleType, index, articleClass) {
 	return htmlWithContent;
 }
 
-function generateGroupQuestion(groupType, groupClass){
+function generateGroupQuestion(groupType, groupClass, haveOthers){
 	var groupTemplate = document.getElementById('groupQuestionTemplate').innerHTML;
 
 	var htmlWithContent = groupTemplate
         .replace("ARTICLE_CLASS", groupClass)
-        .replace("GROUP_QUESTION_TITLE", groupType);
+        .replace("GROUP_QUESTION_TITLE", `${haveOthers?'Other ':''} ${groupType}`);
 
 	return htmlWithContent;
 }
@@ -106,7 +106,7 @@ function generateArticles(data, articleType, articleGroupSelector, articleClass)
         }
     }
 
-	allArticlesHtml += generateGroupQuestion(articleType, articleClass);
+	allArticlesHtml += generateGroupQuestion(articleType, articleClass, !!data[articleType]);
 
 	// find the article group to add this article to
 	var articleGroup = document.querySelector(articleGroupSelector);
@@ -143,12 +143,31 @@ function assignBackgrounds() {
 	assignRandomBackground('article.events aside', ['image-1', 'image-2', 'image-3']);
 }
 
+function updateStandupDate(){
+	var months = [
+		'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'
+	];
+	var standupDate = document.getElementById('standupDate');
+	var date = new Date();
+	var day = date.getDate();
+    var formattedDate = (day < 10 ? '0' + day : day) + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
+	standupDate.innerHTML = formattedDate;
+}
+
 function init() {
 	document.addEventListener("keypress", nextArticle);
 	getWhiteboardItemsAndPopulateContent();
 }
 
 init();
+
+$(document).ready(function(){
+    var clock = $('.countNumbers').FlipClock({});
+    updateStandupDate();
+    setInterval(function(){
+		updateStandupDate();
+	},1000*60*60);
+});
 
 
 // how do we identify which article should be the first one with current?

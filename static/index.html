@@ -7,6 +7,7 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
+	<link rel="stylesheet" href="js/vendor/flipclock/flipclock.css">
 	<link rel="stylesheet" href="css/normalize.min.css">
 	<link rel="stylesheet" href="css/main.css">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
@@ -31,24 +32,47 @@
 
 <script type="text/html" id="groupQuestionTemplate">
 	<article class="ARTICLE_CLASS">
-		<section>
-			<div class="padding-hack">
-				<h1>Any GROUP_QUESTION_TITLEs?</h1>
+		<section class="flex-container">
+			<div class="padding-hack flex-item">
+				<h1 class="alignCenter">Any GROUP_QUESTION_TITLEs?</h1>
 			</div>
 		</section>
 	</article>
 </script>
+
+<div class="articleGroup countdown">
+	<article>
+		<section class="flex-container countdownInner alignCenter">
+			<div class="padding-hack flex-item">
+				<p class="alignCenter">Standup <span id="standupDate">DD MMM YYYY</span> begins in:</p>
+				<h1 class="alignCenter countNumbers">00:00:00</h1>
+			</div>
+		</section>
+	</article>
+</div>
 
 <div class="articleGroup newFaces"></div>
 <div class="articleGroup helps"></div>
 <div class="articleGroup interestings"></div>
 <div class="articleGroup events"></div>
 
+<div class="articleGroup clap">
+	<article>
+		<section class="flex-container clapInner">
+			<div class="padding-hack flex-item">
+				<h1 class="alignCenter">CLAP!</h1>
+			</div>
+		</section>
+	</article>
+</div>
+
 <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
 
-	<script src="js/main.js"></script>
+<script src="js/vendor/flipclock/flipclock.min.js"></script>
+<script src="js/main.js"></script>
+
 </body>
 </html>
