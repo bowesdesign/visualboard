@@ -77,6 +77,13 @@
 /***/ (function(module, exports) {
 
 var URL_FOR_WHITEBOARD_ITEMS = "/data";
+
+var months = [
+    'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'
+];
+
+var dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 // var URL_FOR_WHITEBOARD_ITEMS = "whiteboard_items.json";
 
 //All the things that do work
@@ -144,6 +151,7 @@ function generateArticle(data, articleType, index, articleClass) {
 	var title = articleData.title;
 	var description = articleData.description;
 	var kind = articleData.kind;
+	var date = articleData.date;
 
 	// new faces don't have descriptions, so in this case show 'Welcome!' there
 	if (articleType === 'New face' && description === null) {
@@ -155,10 +163,36 @@ function generateArticle(data, articleType, index, articleClass) {
         .replace("ARTICLE_TITLE", title)
         .replace("ARTICLE_DESCRIPTION", description)
 		.replace("ARTICLE_CLASS", articleClass)
+		.replace("ARTICLE_DATE", getFormattedArticleDate(date))
         .replace("ARTICLE_COUNT", `${index+1} of ${data[articleType].length}`)
 		.replace("ARTICLE_KIND", kind);
 
 	return htmlWithContent;
+}
+
+function getFormattedArticleDate(date){
+    var myDate=date;
+    myDate=myDate.split("-");
+    var newDate=myDate[1]+"/"+myDate[2]+"/"+myDate[0];
+    var articleDateObj = new Date(newDate);
+    articleDate = articleDateObj.getTime();
+    todayDate = new Date().getTime();
+    timeDifference = articleDate - todayDate;
+    days = Math.ceil(timeDifference / (86400 * 1000));
+    formatted = "";
+
+    switch(days){
+		case 0:
+			formatted = "Today";
+		break;
+		case 1:
+			formatted = "Tomorrow";
+		break;
+		default:
+			formatted = dayOfWeek[articleDateObj.getDay()] + ', ' + formattedDate(articleDateObj);
+		break;
+	}
+	return formatted;
 }
 
 function generateGroupQuestion(groupType, groupClass, haveOthers){
@@ -222,14 +256,12 @@ function assignBackgrounds() {
 }
 
 function updateStandupDate(){
-	var months = [
-		'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'
-	];
-	var standupDate = document.getElementById('standupDate');
-	var date = new Date();
-	var day = date.getDate();
-    var formattedDate = (day < 10 ? '0' + day : day) + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
-	standupDate.innerHTML = formattedDate;
+	document.getElementById('standupDate').innerHTML = formattedDate(new Date());
+}
+
+function formattedDate(date) {
+    var day = date.getDate();
+    return (day < 10 ? '0' + day : day) + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
 }
 
 function init() {
