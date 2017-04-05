@@ -55,32 +55,13 @@ var assignRandomBackground = function(selector, imageClasses){
 	}
 };
 
-var displayArticleCount = function(articleGroup){
-	var articles = articleGroup.querySelectorAll('article');
-	for (var i=0; i<articles.length; i++){
-		var article = articles[i];
-		var articleCountSpan = article.querySelectorAll('.articleCount')[0];
-		articleCountSpan.innerHTML = i+1 + ' of ' + articles.length;
-	}
-	
-};
-
-var initAllArticleCounts = function(){
-	var articleGroups = document.querySelectorAll('.articleGroup');
-	for (var i=0; i<articleGroups.length; i++){
-		var g = articleGroups[i];
-		displayArticleCount(g);
-	}
-	
-};
-
 function generateArticle(data, articleType, index, articleClass) {
 	// Find our template for all the article contents
 	var articleTemplate = document.getElementById('articleTemplate').innerHTML;
 
 	// get the data for the requested type and position
 	var articleData = data[articleType][index];
-	
+
 	// get the title and description
 	var title = articleData.title;
 	var description = articleData.description;
@@ -91,33 +72,41 @@ function generateArticle(data, articleType, index, articleClass) {
 		description = "Welcome!";
 	}
 
-	// create a new string using our template but insertign the values from this help
-	var htmlWithContent = articleTemplate.
-		replace("ARTICLE_TITLE", title).
-		replace("ARTICLE_DESCRIPTION", description)
+	// create a new string using our template by inserting the values from this help
+	var htmlWithContent = articleTemplate
+        .replace("ARTICLE_TITLE", title)
+        .replace("ARTICLE_DESCRIPTION", description)
 		.replace("ARTICLE_CLASS", articleClass)
+        .replace("ARTICLE_COUNT", `${index+1} of ${data[articleType].length}`)
 		.replace("ARTICLE_KIND", kind);
-	// "<p>the title</p> <p>the description</p>"
 
-		// <div class="articleGroup helps"></div>
+	return htmlWithContent;
+}
+
+function generateGroupQuestion(groupType, groupClass){
+	var groupTemplate = document.getElementById('groupQuestionTemplate').innerHTML;
+
+	var htmlWithContent = groupTemplate
+        .replace("ARTICLE_CLASS", groupClass)
+        .replace("GROUP_QUESTION_TITLE", groupType);
 
 	return htmlWithContent;
 }
 
 function generateArticles(data, articleType, articleGroupSelector, articleClass) {
-	// if we don't have any of the type requested, dont generate anything
-	if (typeof data[articleType] === "undefined") {
-		return;
-	}
-
-	// how many articles of this type do we have?
-	var count = data[articleType].length;
-
 	var allArticlesHtml = "";
-	for (var i=0; i<count; i++) {
-		var articleHtml = generateArticle(data, articleType, i, articleClass);	
-		allArticlesHtml += articleHtml;
-	}
+
+	if(data[articleType]) {
+        // how many articles of this type do we have?
+        var count = data[articleType].length;
+
+        for (var i = 0; i < count; i++) {
+            var articleHtml = generateArticle(data, articleType, i, articleClass);
+            allArticlesHtml += articleHtml;
+        }
+    }
+
+	allArticlesHtml += generateGroupQuestion(articleType, articleClass);
 
 	// find the article group to add this article to
 	var articleGroup = document.querySelector(articleGroupSelector);
@@ -131,7 +120,7 @@ function setFirstArticleAsCurrent() {
 }
 
 function generateAllArticles(data) {
-	generateArticles(data, 'New face', '.articleGroup.newFaces', 'newFaces');
+	generateArticles(data, 'New Face', '.articleGroup.newFaces', 'newFaces');
 	generateArticles(data, 'Help', '.articleGroup.helps', 'helps');
 	generateArticles(data, 'Interesting', '.articleGroup.interestings', 'interestings');
 	generateArticles(data, 'Event', '.articleGroup.events', 'events');
@@ -139,7 +128,6 @@ function generateAllArticles(data) {
 
 function populateContent(data) {
 	generateAllArticles(data);
-	initAllArticleCounts();
 	setFirstArticleAsCurrent();
 	assignBackgrounds();
 }
