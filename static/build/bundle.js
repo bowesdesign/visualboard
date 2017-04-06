@@ -78,6 +78,7 @@
 
 var showdown = __webpack_require__(2),
     converter = new showdown.Converter();
+converter.setOption('simpleLineBreaks', true);
 
 var URL_FOR_WHITEBOARD_ITEMS = "/data";
 
@@ -87,7 +88,7 @@ var months = [
 
 var dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var now = new Date();
-var standup = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 13, 50);
+var standup = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 15, 46, 30);
 
 // var URL_FOR_WHITEBOARD_ITEMS = "whiteboard_items.json";
 
@@ -280,7 +281,6 @@ function formattedDate(date) {
 function atOrPastTime() {
     var now = new Date();
     if (standup.getTime() - now.getTime() <= 0) {
-        console.log('we are at or past the time!');
         return true;
     }
 
@@ -291,14 +291,13 @@ function setupCountdown() {
     document.querySelectorAll('.countdown section')[0].style.display = "flex";
     var now = new Date();
     var diff = standup.getTime() / 1000 - now.getTime() / 1000;
-    var clock = $('.countNumbers').FlipClock(diff, {
-        countdown: true
-    });
+    $('.countNumbers').FlipClock(diff, {countdown: true});
 
     var interval = setInterval(function () {
         if (atOrPastTime()) {
             clearInterval(interval);
             showWelcomeMessage();
+            playDing();
         }
     }, 1000);
 
@@ -306,6 +305,19 @@ function setupCountdown() {
     setInterval(function () {
         updateStandupDate();
     }, 1000 * 60 * 60);
+}
+
+function playDing() {
+    var audio = new Audio('../mp3/shipbell.mp3');
+
+    var loopsRemaining = 2;
+    audio.addEventListener('ended', function() {
+        loopsRemaining--;
+        if(loopsRemaining) {
+            this.play();
+        }
+    });
+    audio.play();
 }
 
 function init() {
@@ -322,31 +334,6 @@ function init() {
 $(document).ready(function () {
     init();
 });
-
-
-// how do we identify which article should be the first one with current?
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /***/ }),
