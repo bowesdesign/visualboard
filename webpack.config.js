@@ -6,9 +6,10 @@ const extractSass = new ExtractTextPlugin({
 
 module.exports = {
     entry: ['./static/js/main.js', './static/scss/main.scss'],
+    // entry: ['./static/js/main.js'],
     output: {
         publicPath: 'http://localhost:8080/',
-        filename: 'bundle.js'
+        filename: 'static/build/bundle.js'
     },
     module: {
         loaders: [
@@ -21,7 +22,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin('./static/css/main.css')
+        new ExtractTextPlugin('./static/build/main.css')
     ]
 };
 

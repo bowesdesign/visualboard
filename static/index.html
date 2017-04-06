@@ -9,7 +9,7 @@
 
 	<link rel="stylesheet" href="js/vendor/flipclock/flipclock.css">
 	<link rel="stylesheet" href="css/normalize.min.css">
-	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="build/main.css">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
 
 	<script src="js/vendor/modernizr-2.8.3.min.js"></script>
@@ -44,9 +44,19 @@
 <div class="articleGroup countdown">
 	<article>
 		<section class="flex-container countdownInner alignCenter">
-			<div class="padding-hack flex-item">
+			<div class="padding-hack flex-item flex-item-offset">
 				<p class="alignCenter">Standup <span id="standupDate">DD MMM YYYY</span> begins in:</p>
 				<h1 class="alignCenter countNumbers">00:00:00</h1>
+			</div>
+		</section>
+	</article>
+</div>
+
+<div class="articleGroup welcomeMessage">
+	<article>
+		<section class="flex-container countdownInner alignCenter">
+			<div class="padding-hack flex-item">
+				<h1 class="alignCenter">Welcome to Stand Up!</h1>
 			</div>
 		</section>
 	</article>
@@ -61,7 +71,7 @@
 	<article>
 		<section class="flex-container clapInner">
 			<div class="padding-hack flex-item">
-				<h1 class="alignCenter">CLAP!</h1>
+				<h1 class="alignCenter animation-target">CLAP!</h1>
 			</div>
 		</section>
 	</article>
@@ -73,7 +83,7 @@
   crossorigin="anonymous"></script>
 
 <script src="js/vendor/flipclock/flipclock.min.js"></script>
-<script src="js/main.js"></script>
+<script src="build/bundle.js"></script>
 
 </body>
 </html>
