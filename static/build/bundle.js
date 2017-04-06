@@ -91,51 +91,44 @@ var standup = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 13, 50)
 
 // var URL_FOR_WHITEBOARD_ITEMS = "whiteboard_items.json";
 
-//All the things that do work
+function getNextIndex(i, articles) {
+    return i >= articles.length - 1 ? 0 : i + 1;
+    // if(i === articles.length - 1) {
+    //     return 0;
+    // } else {
+    //     return i + 1;
+    // }
+}
 
-var indexOfClass = function (elements, className) {
-    for (var i = 0; i < elements.length; i++) {
-        var element = elements[i];
+function getPrevIndex(i, articles) {
+    return (i ? i : articles.length) - 1;
+    // if(i === 0) {
+    //     return articles.length - 1;
+    // } else {
+    //     return i - 1;
+    // }
+}
 
-        if (element.classList.contains(className)) {
-            return i;
+function changeCurrentArticle(mover) {
+    var articles = $('article');
+    articles.each(function (i) {
+        if ($(this).hasClass('current')) {
+            var newCurrent = articles.eq(mover(i, articles));
+            $(this).removeClass('current');
+            newCurrent.addClass('current');
+            return false;
         }
-    }
-};
+    });
+}
 
-var advanceClassOrWrap = function (elements, className) {
-    var index = indexOfClass(elements, className);
-
-    var nextElement;
-    var isLastElement = index === elements.length - 1;
-
-    if (isLastElement) {
-        nextElement = elements[0];
-    }
-    else {
-        nextElement = elements[index + 1];
-    }
-
-    var currentElement = elements[index];
-
-    currentElement.classList.remove(className);
-    nextElement.classList.add(className);
-};
-
-var nextArticle = function () {
-    var articles = document.querySelectorAll('article');
-
-    advanceClassOrWrap(articles, 'current');
-};
-
-var getRandom = function (values) {
+function getRandom(values) {
     var randomIndex = Math.floor(Math.random() * values.length);
     var value = values[randomIndex];
 
     return value;
-};
+}
 
-var assignRandomBackground = function (selector, imageClasses) {
+function assignRandomBackground(selector, imageClasses) {
     var elements = document.querySelectorAll(selector);
 
     for (var i = 0; i < elements.length; i++) {
@@ -143,7 +136,7 @@ var assignRandomBackground = function (selector, imageClasses) {
         var element = elements[i];
         element.classList.add(imageClass);
     }
-};
+}
 
 function generateArticle(data, articleType, index, articleClass) {
     // Find our template for all the article contents
@@ -316,7 +309,13 @@ function setupCountdown() {
 }
 
 function init() {
-    document.addEventListener("keypress", nextArticle);
+    document.addEventListener('keyup', function (event) {
+        if (['ArrowRight', 'Space', 'ArrowDown', 'Enter'].indexOf(event.code) > -1) {
+            changeCurrentArticle(getNextIndex);
+        } else if (['ArrowLeft', 'Delete', 'ArrowUp', 'Backspace'].indexOf(event.code) > -1) {
+            changeCurrentArticle(getPrevIndex);
+        }
+    });
     getWhiteboardItemsAndPopulateContent();
 }
 
