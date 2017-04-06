@@ -9,7 +9,7 @@ var months = [
 
 var dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var now = new Date();
-var standup = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 14, 24, 0);
+var standup = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 13, 50);
 
 // var URL_FOR_WHITEBOARD_ITEMS = "whiteboard_items.json";
 
@@ -154,16 +154,8 @@ function generateArticles(data, articleType, articleGroupSelector, articleClass)
 }
 
 function setCurrentArticle() {
-    var index = 0;
-    if (atOrPastTime(standup)) {
-        index = 1;
-    }
-    var currentArticle = document.querySelectorAll('article')[index];
+    var currentArticle = document.querySelectorAll('article')[0];
     currentArticle.classList.add("current");
-
-    if(index == 0) {
-        setupCountdown();
-    }
 }
 
 function generateAllArticles(data) {
@@ -177,6 +169,21 @@ function populateContent(data) {
     generateAllArticles(data);
     setCurrentArticle();
     assignBackgrounds();
+    setWelcomeScreen();
+}
+
+function showWelcomeMessage() {
+    let sections = $('.countdown section');
+    sections.css('display', 'none');
+    sections.eq(1).css('display', 'flex');
+}
+
+function setWelcomeScreen() {
+    if (atOrPastTime()) {
+        showWelcomeMessage();
+    } else {
+        setupCountdown();
+    }
 }
 
 function getWhiteboardItemsAndPopulateContent() {
@@ -199,7 +206,7 @@ function formattedDate(date) {
     return (day < 10 ? '0' + day : day) + ' ' + months[date.getMonth()] + ' ' + date.getFullYear();
 }
 
-function atOrPastTime(standup) {
+function atOrPastTime() {
     var now = new Date();
     if (standup.getTime() - now.getTime() <= 0) {
         console.log('we are at or past the time!');
@@ -210,6 +217,7 @@ function atOrPastTime(standup) {
 }
 
 function setupCountdown() {
+    document.querySelectorAll('.countdown section')[0].style.display = "flex";
     var now = new Date();
     var diff = standup.getTime() / 1000 - now.getTime() / 1000;
     var clock = $('.countNumbers').FlipClock(diff, {
@@ -217,9 +225,9 @@ function setupCountdown() {
     });
 
     var interval = setInterval(function () {
-        if (atOrPastTime(standup)) {
+        if (atOrPastTime()) {
             clearInterval(interval);
-            nextArticle();
+            showWelcomeMessage();
         }
     }, 1000);
 
