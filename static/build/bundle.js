@@ -88,7 +88,7 @@ var months = [
 
 var dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var now = new Date();
-var standup = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 15, 46, 30);
+var standup = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 8, 6, 0);
 
 // var URL_FOR_WHITEBOARD_ITEMS = "whiteboard_items.json";
 
@@ -151,22 +151,33 @@ function generateArticle(data, articleType, index, articleClass) {
     var description = articleData.description;
     var kind = articleData.kind;
     var date = articleData.date;
+    var author = articleData.author ? 'Posted by ' + articleData.author : '';
 
     // new faces don't have descriptions, so in this case show 'Welcome!' there
     if (articleType === 'New face' && description === null) {
         description = "Welcome!";
     }
 
-    // create a new string using our template by inserting the values from this help
+    // create a new string using our template by inserting the values from this
     var htmlWithContent = articleTemplate
-        .replace("ARTICLE_TITLE", converter.makeHtml(title))
+        .replace("ARTICLE_TITLE", title)
         .replace("ARTICLE_DESCRIPTION", converter.makeHtml(description))
         .replace("ARTICLE_CLASS", articleClass)
         .replace("ARTICLE_DATE", getFormattedArticleDate(date))
-        .replace("ARTICLE_COUNT", `${index + 1} of ${data[articleType].length}`)
-        .replace("ARTICLE_KIND", kind);
+        // .replace("ARTICLE_COUNT", `${index + 1} of ${data[articleType].length}`)
+        .replace("ARTICLE_KIND", kind)
+        .replace("ARTICLE_DOTS", makeDots(data[articleType].length, index+1))
+        .replace("ARTICLE_AUTHOR", author);
 
     return htmlWithContent;
+}
+
+function makeDots(count, active) {
+    var html = '';
+    for(var i = 1; i <= count; i++) {
+        html += `<div class="${i === active ? 'full' : 'empty'}-circle"></div>`;
+    }
+    return html;
 }
 
 function getFormattedArticleDate(date) {
@@ -231,7 +242,7 @@ function setCurrentArticle() {
 }
 
 function generateAllArticles(data) {
-    generateArticles(data, 'New Face', '.articleGroup.newFaces', 'newFaces');
+    generateArticles(data, 'New face', '.articleGroup.newFaces', 'newFaces');
     generateArticles(data, 'Help', '.articleGroup.helps', 'helps');
     generateArticles(data, 'Interesting', '.articleGroup.interestings', 'interestings');
     generateArticles(data, 'Event', '.articleGroup.events', 'events');
@@ -322,7 +333,7 @@ function playDing() {
 
 function init() {
     document.addEventListener('keyup', function (event) {
-        if (['ArrowRight', 'Space', 'ArrowDown', 'Enter'].indexOf(event.code) > -1) {
+        if (['ArrowRight', 'Space', 'ArrowDown', 'Enter', 'NumpadEnter'].indexOf(event.code) > -1) {
             changeCurrentArticle(getNextIndex);
         } else if (['ArrowLeft', 'Delete', 'ArrowUp', 'Backspace'].indexOf(event.code) > -1) {
             changeCurrentArticle(getPrevIndex);

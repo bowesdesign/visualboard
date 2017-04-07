@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="js/vendor/flipclock/flipclock.css">
 	<link rel="stylesheet" href="css/normalize.min.css">
 	<link rel="stylesheet" href="build/main.css">
-	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700" rel="stylesheet">
 
 	<script src="js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
@@ -20,10 +20,13 @@
 	<article class="ARTICLE_CLASS">
 		<section>
 			<div class="padding-hack">
-				<h3>ARTICLE_KIND <span class="articleCount">ARTICLE_COUNT</span></h3>
+				<div class="article-header">
+					<div><h3>ARTICLE_KIND</h3></div>
+					<div class="dots-container">ARTICLE_DOTS</div>
+				</div>
 				<h2 class="articleDate">ARTICLE_DATE</h2>
 				<h1>ARTICLE_TITLE</h1>
-				<!-- <cite>Posted by Glen on Weds. 3 Oct 2016</cite> -->
+				<p class="author">ARTICLE_AUTHOR</p>
 				<p>ARTICLE_DESCRIPTION</p>
 			</div>
 		</section>
@@ -35,7 +38,7 @@
 	<article class="ARTICLE_CLASS">
 		<section class="flex-container">
 			<div class="padding-hack flex-item">
-				<h1 class="alignCenter">Any GROUP_QUESTION_TITLEs?</h1>
+				<h1 class="alignCenter question">Any GROUP_QUESTION_TITLEs?</h1>
 			</div>
 		</section>
 	</article>
@@ -51,7 +54,7 @@
 		</section>
 		<section class="flex-container countdownInner alignCenter">
 			<div class="padding-hack flex-item">
-				<h1 class="alignCenter">Welcome to Stand Up!</h1>
+				<h1 class="alignCenter question">Welcome to Stand Up!</h1>
 			</div>
 		</section>
 	</article>

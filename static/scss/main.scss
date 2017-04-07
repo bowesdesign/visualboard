@@ -38,13 +38,21 @@ article {
   }
 }
 
+.author {
+  font-size:  2rem;
+  line-height: 2.8rem;
+  font-weight: 400;
+  color: #000;
+  opacity: .5;
+}
+
 section {
   flex: 1;
   background-color: #444;
   overflow-y: scroll;
 
   > .padding-hack {
-    padding: 30px 7%;
+    padding: 30px 5%;
   }
 
   p {
@@ -52,6 +60,7 @@ section {
     opacity: .9;
     font-size: 2.4rem;
     line-height: 3rem;
+    margin: 0 0 1.2rem;
   }
   a {
     color: #fff;
@@ -66,15 +75,17 @@ section {
   h1, h1 p {
     color: #fff;
     opacity: 1;
-    font-size: 6.4rem;
-    line-height: 7.4rem;
-    letter-spacing: -.01rem;
-    margin: .1rem 0;
+    font-size: 5rem;
+    line-height: 6rem;
+    margin: 0 0 1.5rem;
   }
   h3 {
-    color: #000;
-    opacity: .3;
-    font-size: 1.2rem;
+    color: #fff;
+    font-weight: 600;
+    opacity: 1;
+    margin: 0 0 1rem;
+    padding: 0;
+    font-size: 1.8rem;
     letter-spacing: .1rem;
     text-transform: uppercase;
   }
@@ -100,17 +111,17 @@ aside {
 .newFaces {
 
   .image-1 {
-    background-image: url("../img/newFaces/nf-01.jpg");
+    background-image: url("../img/newFaces/nf-01.gif");
     background-color: #333;
   }
 
   .image-2 {
-    background-image: url("../img/newFaces/nf-02.jpg");
+    background-image: url("../img/newFaces/nf-02.gif");
     background-color: #333;
   }
 
   .image-3 {
-    background-image: url("../img/newFaces/nf-03.jpg");
+    background-image: url("../img/newFaces/nf-03.gif");
     background-color: #333;
   }
 
@@ -138,7 +149,7 @@ aside {
 .interestings {
 
   .image-1 {
-    background-image: url("../img/interestings/int-01.jpg");
+    background-image: url("../img/interestings/int-01.gif");
     background-color: #333;
   }
 
@@ -167,7 +178,7 @@ aside {
   }
 
   .image-3 {
-    background-image: url("../img/events/event-03.jpg");
+    background-image: url("../img/events/event-03.gif");
     background-color: #333;
   }
 
@@ -264,21 +275,52 @@ aside {
 
 .articleDate {
   color: #fff;
-  opacity: .6;
+  background: rgba(0,0,0, .4);
+  padding: .8rem 1.6rem;
+  margin: .8rem 0 1rem;
   text-transform: uppercase;
-  font-weight: 700;
-  font-size: 2.25rem;
-  display: none
+  font-weight: 600;
+  font-size: 2.6rem;
+  letter-spacing: .1rem;
+  display: none;
 }
 
 .events .articleDate {
-  display: block;
+  display: inline-block;
 }
 
+.question {
+  font-size: 8rem;
+  line-height: 8.8rem;
+}
 
+.full-circle {
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: white;
+}
 
+.empty-circle {
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid white;
+}
 
+.article-header div {
+  display: inline-block;
+}
 
+.dots-container {
+  padding-left: 1rem;
+
+  div {
+    margin-right: 1rem;
+  }
+}
 
 
 //.animation-target {
