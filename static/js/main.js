@@ -10,7 +10,7 @@ var months = [
 
 var dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var now = new Date();
-var standup = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 8, 6, 0);
+var standup = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 37, 0);
 
 // var URL_FOR_WHITEBOARD_ITEMS = "whiteboard_items.json";
 
@@ -83,21 +83,36 @@ function generateArticle(data, articleType, index, articleClass) {
     // create a new string using our template by inserting the values from this
     var htmlWithContent = articleTemplate
         .replace("ARTICLE_TITLE", title)
-        .replace("ARTICLE_DESCRIPTION", converter.makeHtml(description))
         .replace("ARTICLE_CLASS", articleClass)
         .replace("ARTICLE_DATE", getFormattedArticleDate(date))
         // .replace("ARTICLE_COUNT", `${index + 1} of ${data[articleType].length}`)
         .replace("ARTICLE_KIND", kind)
-        .replace("ARTICLE_DOTS", makeDots(data[articleType].length, index+1))
+        .replace("ARTICLE_DOTS", makeDots(data[articleType].length, index + 1))
         .replace("ARTICLE_AUTHOR", author);
 
-    return htmlWithContent;
+    var descriptionHtml = converter.makeHtml(description);
+    var imgTagRegex = /<img src=".+" alt=".*" \/>/;
+    var imgTag = descriptionHtml.match(imgTagRegex);
+
+    if(imgTag) {
+        var imgUrl = imgTag[0].split('src="')[1].split('"')[0];
+
+        return htmlWithContent
+            .replace("ARTICLE_DESCRIPTION", descriptionHtml.replace(imgTagRegex, ''))
+            .replace("ARTICLE_IMAGE_STYLE", "background-image: url(" + imgUrl + ");");
+    } else {
+        return htmlWithContent
+            .replace("ARTICLE_DESCRIPTION", descriptionHtml)
+            .replace("ARTICLE_IMAGE_STYLE", "");
+    }
 }
 
 function makeDots(count, active) {
     var html = '';
-    for(var i = 1; i <= count; i++) {
-        html += `<div class="${i === active ? 'full' : 'empty'}-circle"></div>`;
+    if (count > 1) {
+        for (var i = 1; i <= count; i++) {
+            html += `<div class="${i === active ? 'full' : 'empty'}-circle"></div>`;
+        }
     }
     return html;
 }
@@ -244,9 +259,9 @@ function playDing() {
     var audio = new Audio('../mp3/shipbell.mp3');
 
     var loopsRemaining = 2;
-    audio.addEventListener('ended', function() {
+    audio.addEventListener('ended', function () {
         loopsRemaining--;
-        if(loopsRemaining) {
+        if (loopsRemaining) {
             this.play();
         }
     });

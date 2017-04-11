@@ -292,6 +292,7 @@ aside {
 .question {
   font-size: 8rem;
   line-height: 8.8rem;
+  text-transform: capitalize;
 }
 
 .full-circle {
@@ -308,6 +309,7 @@ aside {
   height: 20px;
   border-radius: 50%;
   border: 3px solid white;
+  opacity: .6;
 }
 
 .article-header div {
