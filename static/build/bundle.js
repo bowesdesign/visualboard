@@ -86,20 +86,10 @@ var dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday
 
 function getNextIndex(i, articles) {
     return i >= articles.length - 1 ? 0 : i + 1;
-    // if(i === articles.length - 1) {
-    //     return 0;
-    // } else {
-    //     return i + 1;
-    // }
 }
 
 function getPrevIndex(i, articles) {
     return (i ? i : articles.length) - 1;
-    // if(i === 0) {
-    //     return articles.length - 1;
-    // } else {
-    //     return i - 1;
-    // }
 }
 
 function changeCurrentArticle(mover) {
@@ -112,23 +102,6 @@ function changeCurrentArticle(mover) {
             return false;
         }
     });
-}
-
-function getRandom(values) {
-    var randomIndex = Math.floor(Math.random() * values.length);
-    var value = values[randomIndex];
-
-    return value;
-}
-
-function assignRandomBackground(selector, imageClasses) {
-    var elements = document.querySelectorAll(selector);
-
-    for (var i = 0; i < elements.length; i++) {
-        var imageClass = getRandom(imageClasses);
-        var element = elements[i];
-        element.classList.add(imageClass);
-    }
 }
 
 function generateArticle(data, articleType, index, articleClass) {
@@ -155,7 +128,6 @@ function generateArticle(data, articleType, index, articleClass) {
         .replace("ARTICLE_TITLE", title)
         .replace("ARTICLE_CLASS", articleClass)
         .replace("ARTICLE_DATE", getFormattedArticleDate(date))
-        // .replace("ARTICLE_COUNT", `${index + 1} of ${data[articleType].length}`)
         .replace("ARTICLE_KIND", kind)
         .replace("ARTICLE_DOTS", makeDots(data[articleType].length, index + 1))
         .replace("ARTICLE_AUTHOR", author);
@@ -173,7 +145,7 @@ function generateArticle(data, articleType, index, articleClass) {
     } else {
         return htmlWithContent
             .replace("ARTICLE_DESCRIPTION", descriptionHtml)
-            .replace("ARTICLE_IMAGE_STYLE", "");
+            .replace("ARTICLE_IMAGE_STYLE", "display: none;");
     }
 }
 
@@ -258,7 +230,6 @@ function generateAllArticles(data) {
 function populateContent(data) {
     generateAllArticles(data);
     setCurrentArticle();
-    assignBackgrounds();
     setWelcomeScreen();
 }
 
@@ -302,13 +273,6 @@ function getWhiteboardItemsAndPopulateContent() {
         populateMetadata(data);
         $.getJSON(itemsUrl, populateContent);
     });
-}
-
-function assignBackgrounds() {
-    assignRandomBackground('article.newFaces aside', ['image-1', 'image-2', 'image-3']);
-    assignRandomBackground('article.helps aside', ['image-1', 'image-2', 'image-3']);
-    assignRandomBackground('article.interestings aside', ['image-1', 'image-2', 'image-3']);
-    assignRandomBackground('article.events aside', ['image-1', 'image-2', 'image-3']);
 }
 
 function updateStandupDate() {
