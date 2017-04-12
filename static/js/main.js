@@ -2,17 +2,9 @@ var showdown = require('showdown'),
     converter = new showdown.Converter();
 converter.setOption('simpleLineBreaks', true);
 
-var URL_FOR_WHITEBOARD_ITEMS = "/standups";
-
-var months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-];
-
-var dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-var now = new Date();
-var standup = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 8, 6, 0);
-
-// var URL_FOR_WHITEBOARD_ITEMS = "whiteboard_items.json";
+var standupDate;
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+var dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 function getNextIndex(i, articles) {
     return i >= articles.length - 1 ? 0 : i + 1;
@@ -94,7 +86,7 @@ function generateArticle(data, articleType, index, articleClass) {
     var imgTagRegex = /<img src=".+" alt=".*" \/>/;
     var imgTag = descriptionHtml.match(imgTagRegex);
 
-    if(imgTag) {
+    if (imgTag) {
         var imgUrl = imgTag[0].split('src="')[1].split('"')[0];
 
         return htmlWithContent
@@ -192,8 +184,22 @@ function populateContent(data) {
     setWelcomeScreen();
 }
 
+function setStandupTime(startTime) {
+    var timeParts = startTime.split(':');
+    var hours = timeParts[0];
+    var minutes = timeParts[1].slice(0, 2);
+    var meridian = timeParts[1].slice(2, 4);
+
+    standupDate = new Date();
+    standupDate.setHours(+hours + (meridian === 'pm' ? 12 : 0));
+    standupDate.setMinutes(minutes);
+    standupDate.setSeconds(0);
+    standupDate.setMilliseconds(0);
+}
+
 function populateMetadata(data) {
     $('.clap h1').text(data.closing_message);
+    setStandupTime(data.start_time_string);
 }
 
 function showWelcomeMessage() {
@@ -211,11 +217,13 @@ function setWelcomeScreen() {
 }
 
 function getWhiteboardItemsAndPopulateContent() {
-    var standupUrl = URL_FOR_WHITEBOARD_ITEMS + (location.pathname === '/' ? '/11' : location.pathname);
+    var standupUrl = '/standups' + (location.pathname === '/' ? '/11' : location.pathname);
     var itemsUrl = standupUrl + '/items';
 
-    $.getJSON(standupUrl, populateMetadata);
-    $.getJSON(itemsUrl, populateContent);
+    $.getJSON(standupUrl, function (data) {
+        populateMetadata(data);
+        $.getJSON(itemsUrl, populateContent);
+    });
 }
 
 function assignBackgrounds() {
@@ -236,7 +244,7 @@ function formattedDate(date) {
 
 function atOrPastTime() {
     var now = new Date();
-    if (standup.getTime() - now.getTime() <= 0) {
+    if (standupDate.getTime() - now.getTime() <= 0) {
         return true;
     }
 
@@ -246,7 +254,7 @@ function atOrPastTime() {
 function setupCountdown() {
     document.querySelectorAll('.countdown section')[0].style.display = "flex";
     var now = new Date();
-    var diff = standup.getTime() / 1000 - now.getTime() / 1000;
+    var diff = standupDate.getTime() / 1000 - now.getTime() / 1000;
     $('.countNumbers').FlipClock(diff, {countdown: true});
 
     var interval = setInterval(function () {
