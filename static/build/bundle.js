@@ -80,7 +80,7 @@ var showdown = __webpack_require__(2),
     converter = new showdown.Converter();
 converter.setOption('simpleLineBreaks', true);
 
-var URL_FOR_WHITEBOARD_ITEMS = "/data";
+var URL_FOR_WHITEBOARD_ITEMS = "/standups";
 
 var months = [
     'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
@@ -189,7 +189,7 @@ function makeDots(count, active) {
     var html = '';
     if (count > 1) {
         for (var i = 1; i <= count; i++) {
-            html += `<div class="${i === active ? 'full' : 'empty'}-circle"></div>`;
+            html += '<div class="' + (i === active ? 'full' : 'empty') + '-circle"></div>';
         }
     }
     return html;
@@ -225,7 +225,7 @@ function generateGroupQuestion(groupType, groupClass, haveOthers) {
 
     var htmlWithContent = groupTemplate
         .replace("ARTICLE_CLASS", groupClass)
-        .replace("GROUP_QUESTION_TITLE", `${haveOthers ? 'Other ' : ''} ${groupType}`);
+        .replace("GROUP_QUESTION_TITLE", (haveOthers ? 'Other ' : '') + ' ' + groupType);
 
     return htmlWithContent;
 }
@@ -270,8 +270,12 @@ function populateContent(data) {
     setWelcomeScreen();
 }
 
+function populateMetadata(data) {
+    $('.clap h1').text(data.closing_message);
+}
+
 function showWelcomeMessage() {
-    let sections = $('.countdown section');
+    var sections = $('.countdown section');
     sections.css('display', 'none');
     sections.eq(1).css('display', 'flex');
 }
@@ -285,7 +289,11 @@ function setWelcomeScreen() {
 }
 
 function getWhiteboardItemsAndPopulateContent() {
-    $.getJSON(URL_FOR_WHITEBOARD_ITEMS, populateContent);
+    var standupUrl = URL_FOR_WHITEBOARD_ITEMS + (location.pathname === '/' ? '/11' : location.pathname);
+    var itemsUrl = standupUrl + '/items';
+
+    $.getJSON(standupUrl, populateMetadata);
+    $.getJSON(itemsUrl, populateContent);
 }
 
 function assignBackgrounds() {
