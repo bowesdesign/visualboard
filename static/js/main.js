@@ -10,7 +10,7 @@ var months = [
 
 var dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var now = new Date();
-var standup = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 37, 0);
+var standup = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 8, 6, 0);
 
 // var URL_FOR_WHITEBOARD_ITEMS = "whiteboard_items.json";
 
