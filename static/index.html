@@ -14,16 +14,12 @@
 
 	<script src="js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
-<body>
-
+<body class="moveRight section--countdown">
+<img src="img/star.svg" class="star" />
 <script type="text/html" id="articleTemplate">
-	<article class="ARTICLE_CLASS">
+	<article class="ARTICLE_CLASS itemCard" data-index="ARTICLE_INDEX" data-type="ARTICLE_KIND" data-num="ARTICLE_COUNT">
 		<section>
 			<div class="padding-hack">
-				<div class="article-header">
-					<div><h3>ARTICLE_KIND</h3></div>
-					<div class="dots-container">ARTICLE_DOTS</div>
-				</div>
 				<h2 class="articleDate">ARTICLE_DATE</h2>
 				<h1>ARTICLE_TITLE</h1>
 				<p class="author">ARTICLE_AUTHOR</p>
@@ -35,7 +31,7 @@
 </script>
 
 <script type="text/html" id="groupQuestionTemplate">
-	<article class="ARTICLE_CLASS">
+	<article class="ARTICLE_CLASS titleCard">
 		<section class="flex-container">
 			<div class="padding-hack flex-item">
 				<h1 class="alignCenter question">Any GROUP_QUESTION_TITLEs?</h1>
@@ -44,15 +40,25 @@
 	</article>
 </script>
 
+<div class="article-header">
+	<div><h3>ARTICLE_KIND</h3></div>
+	<div class="dots-container">
+		<div class="full-circle"></div>
+		<div class="empty-circle"></div>
+		<div class="empty-circle"></div>
+		<div class="empty-circle"></div>
+	</div>
+</div>
+
 <div class="articleGroup countdown">
-	<article>
-		<section class="flex-container countdownInner alignCenter">
+	<article class="titleCard">
+		<section class="flex-container alignCenter countdownTimer">
 			<div class="padding-hack flex-item flex-item-offset">
 				<p class="alignCenter">Standup <span id="standupDate">DD MMM YYYY</span> begins in:</p>
 				<h1 class="alignCenter countNumbers">00:00:00</h1>
 			</div>
 		</section>
-		<section class="flex-container countdownInner alignCenter">
+		<section class="flex-container alignCenter countdownWelcome">
 			<div class="padding-hack flex-item">
 				<h1 class="alignCenter question">Welcome to Stand Up!</h1>
 			</div>
@@ -66,7 +72,7 @@
 <div class="articleGroup events"></div>
 
 <div class="articleGroup clap">
-	<article>
+	<article class="titleCard">
 		<section class="flex-container clapInner">
 			<div class="padding-hack flex-item">
 				<h1 class="alignCenter animation-target"></h1>
@@ -74,6 +80,8 @@
 		</section>
 	</article>
 </div>
+
+<div class="background"></div>
 
 <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"

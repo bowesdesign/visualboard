@@ -1,0 +1,18 @@
+<svg width="945" height="944" viewBox="0 0 945 944" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:figma="http://www.figma.com/figma/ns">
+<title>Star</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(384 432)" figma:type="canvas">
+<g id="Star" figma:type="star">
+<use xlink:href="#path0_fill" transform="translate(-384 -432)" fill="url(#paint0_radial)"/>
+</g>
+</g>
+<defs>
+<radialGradient id="paint0_radial" cx="0.5" cy="0.5" r="0.5" gradientUnits="userSpaceOnUse" gradientTransform="matrix(5.78646e-14 945 -945 5.78646e-14 945 -5.78646e-14)">
+<stop offset="0.15" stop-color="#FFFFFF" stop-opacity="0"/>
+<stop offset="0.427778" stop-color="#FFFFFF" stop-opacity="0.37"/>
+<stop offset="0.9999" stop-color="#FFEAEA" stop-opacity="0"/>
+<stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+</radialGradient>
+<path id="path0_fill" d="M 472.5 0L 476.82 424.499L 556.868 7.59327L 485.322 426.042L 638.525 30.129L 493.411 429.078L 714.845 66.8829L 500.828 433.509L 783.376 116.674L 507.335 439.194L 841.915 177.901L 512.722 445.95L 888.581 248.597L 516.817 453.558L 921.874 326.489L 519.487 461.776L 940.724 409.075L 520.646 470.338L 944.524 493.699L 520.259 478.969L 933.153 577.641L 518.336 487.393L 906.977 658.204L 514.94 495.338L 866.836 732.799L 510.18 502.549L 814.021 799.027L 504.209 508.794L 750.229 854.761L 497.219 513.873L 677.51 898.208L 489.435 517.622L 598.202 927.972L 481.106 519.92L 514.855 943.098L 472.5 520.695L 430.145 943.098L 463.894 519.92L 346.798 927.972L 455.565 517.622L 267.49 898.208L 447.781 513.873L 194.771 854.761L 440.791 508.794L 130.979 799.027L 434.82 502.549L 78.1641 732.799L 430.06 495.338L 38.0231 658.204L 426.664 487.393L 11.8466 577.641L 424.741 478.969L 0.475776 493.699L 424.354 470.338L 4.27624 409.075L 425.513 461.776L 23.1258 326.489L 428.183 453.558L 56.4186 248.597L 432.278 445.95L 103.085 177.901L 437.665 439.194L 161.624 116.674L 444.172 433.509L 230.155 66.8829L 451.589 429.078L 306.475 30.129L 459.678 426.042L 388.132 7.59327L 468.18 424.499L 472.5 0Z"/>
+</defs>
+</svg>

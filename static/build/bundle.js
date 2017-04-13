@@ -83,6 +83,8 @@ converter.setOption('simpleLineBreaks', true);
 var standupDate;
 var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 var dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+var currentIndex = -1;
+var lastGroupType = null;
 
 function getNextIndex(i, articles) {
     return i >= articles.length - 1 ? 0 : i + 1;
@@ -92,16 +94,64 @@ function getPrevIndex(i, articles) {
     return (i ? i : articles.length) - 1;
 }
 
+function updateArticleHeader(animateTitle) {
+    var $header = $('.article-header');
+    var $current = $('.current');
+    var $dotsContainer = $header.find('.dots-container');
+    var articleType = $current.data('type');
+    var articleCount = parseFloat($current.data('num'));
+    var articleIndex = parseFloat($current.data('index'));
+
+    if($dotsContainer.find('div').length != articleCount){
+        $dotsContainer.html('');
+        for(var i = 0; i < articleCount; i++){
+            $dotsContainer.append('<div class="dot"></div>');
+        }
+    }
+
+    $dotsContainer.toggleClass('single',articleCount == 1);
+
+    $dotsContainer.find('.dot--full').removeClass('dot--full');
+    $dotsContainer.find('.dot').eq(articleIndex).addClass('dot--full');
+
+    $header.toggleClass('article-header--active',articleCount > 0);
+    $header.find('h3').html(articleType);
+}
+
 function changeCurrentArticle(mover) {
     var articles = $('article');
+    var sections = ['events', 'interestings', 'helps', 'newFaces', 'countdown', 'clap'];
+    var match = false;
+    var animateTitle = false;
     articles.each(function (i) {
-        if ($(this).hasClass('current')) {
-            var newCurrent = articles.eq(mover(i, articles));
-            $(this).removeClass('current');
+        if ($(this).hasClass('current') && !match) {
+            var newIndex = mover(i, articles);
+            var newCurrent = articles.eq(newIndex);
+            var direction = newIndex - currentIndex;
+            var group = newCurrent.closest('.articleGroup');
+            var groupType = group.attr("class").split(' ')[1];
+            var switchedType = false;
+            sections.map(function (s) {
+                $('body').toggleClass('section--' + s, groupType == s);
+                if(groupType == s){
+                    if(groupType != lastGroupType){
+                        lastGroupType = groupType;
+                        switchedType = true;
+                    }
+                }
+            });
+            $('body').toggleClass('moveRight', direction > 0);
+            $('body').toggleClass('moveLeft', direction < 0);
+            $(this).removeClass('current').addClass('previous');
             newCurrent.addClass('current');
-            return false;
+            animateTitle = parseFloat(newCurrent.data('num')) > 0;
+            currentIndex = newIndex;
+            match = true;
+        } else {
+            $(this).removeClass('previous');
         }
     });
+    updateArticleHeader(animateTitle);
 }
 
 function generateArticle(data, articleType, index, articleClass) {
@@ -118,6 +168,7 @@ function generateArticle(data, articleType, index, articleClass) {
     var date = articleData.date;
     var author = articleData.author ? 'Posted by ' + articleData.author : '';
 
+
     // new faces don't have descriptions, so in this case show 'Welcome!' there
     if (articleType === 'New face' && description === null) {
         description = "Welcome!";
@@ -127,9 +178,10 @@ function generateArticle(data, articleType, index, articleClass) {
     var htmlWithContent = articleTemplate
         .replace("ARTICLE_TITLE", title)
         .replace("ARTICLE_CLASS", articleClass)
-        .replace("ARTICLE_DATE", getFormattedArticleDate(date))
         .replace("ARTICLE_KIND", kind)
-        .replace("ARTICLE_DOTS", makeDots(data[articleType].length, index + 1))
+        .replace("ARTICLE_COUNT", data[articleType].length)
+        .replace("ARTICLE_INDEX", index)
+        .replace("ARTICLE_DATE", getFormattedArticleDate(date))
         .replace("ARTICLE_AUTHOR", author);
 
     var descriptionHtml = converter.makeHtml(description);
@@ -252,9 +304,12 @@ function populateMetadata(data) {
 }
 
 function showWelcomeMessage() {
-    var sections = $('.countdown section');
-    sections.css('display', 'none');
-    sections.eq(1).css('display', 'flex');
+    var countDownArticle = $('.countdown .titleCard');
+    countDownArticle.addClass('welcomeMessage');
+
+    // var sections = $('.countdown section');
+    // sections.css('display', 'none');
+    // sections.eq(1).css('display', 'flex');
 }
 
 function setWelcomeScreen() {
@@ -294,7 +349,6 @@ function atOrPastTime() {
 }
 
 function setupCountdown() {
-    document.querySelectorAll('.countdown section')[0].style.display = "flex";
     var now = new Date();
     var diff = standupDate.getTime() / 1000 - now.getTime() / 1000;
     $('.countNumbers').FlipClock(diff, {countdown: true});
