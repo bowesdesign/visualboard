@@ -79,10 +79,10 @@ body {
   font-family: 'Montserrat', Arial, sans-serif;
   font-weight: 400;
   transform: rotate3d(1, 1, 1, 0deg); }
+  body.section--countdown .background, body.section--clap .background {
+    background-color: #008774; }
   body.section--events .background {
     background-color: #00AF9F; }
-  body.section--countdown .background {
-    background-color: #0f62a8; }
   body.section--interestings .background {
     background-color: #EF5A5A; }
   body.section--helps .background {
@@ -170,7 +170,8 @@ article {
 
 section {
   flex: 1;
-  overflow-y: auto; }
+  overflow-y: auto;
+  overflow-x: hidden; }
   section > .padding-hack {
     padding: 1.875rem 2.5rem; }
   section p {
@@ -225,18 +226,6 @@ aside {
 .alignCenter {
   text-align: center; }
 
-.clap .titleCard {
-  background: #0f62a8;
-  /* Old browsers */
-  background: -moz-linear-gradient(top, #0f62a8 0%, #00a79c 100%);
-  /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, #0f62a8 0%, #00a79c 100%);
-  /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, #0f62a8 0%, #00a79c 100%);
-  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0f62a8', endColorstr='#00a79c', GradientType=0);
-  /* IE6-9 */ }
-
 .clap h1 {
   font-size: 18rem; }
 
@@ -252,26 +241,18 @@ aside {
   top: -90px;
   position: relative; }
 
-.countdown .titleCard {
-  background: #0f62a8;
-  /* Old browsers */
-  background: -moz-linear-gradient(top, #0f62a8 0%, #00a79c 100%);
-  /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, #0f62a8 0%, #00a79c 100%);
-  /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, #0f62a8 0%, #00a79c 100%);
-  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0f62a8', endColorstr='#00a79c', GradientType=0);
-  /* IE6-9 */ }
-  .countdown .titleCard .countdownTimer {
-    display: flex; }
-  .countdown .titleCard .countdownWelcome {
-    display: none;
-    overflow: hidden; }
-  .countdown .titleCard.welcomeMessage .countdownWelcome {
-    display: flex; }
-  .countdown .titleCard.welcomeMessage .countdownTimer {
-    display: none; }
+.countdown .titleCard .countdownTimer {
+  display: flex; }
+
+.countdown .titleCard .countdownWelcome {
+  display: none;
+  overflow: hidden; }
+
+.countdown .titleCard.welcomeMessage .countdownWelcome {
+  display: flex; }
+
+.countdown .titleCard.welcomeMessage .countdownTimer {
+  display: none; }
 
 .countNumbers {
   display: inline-block;
