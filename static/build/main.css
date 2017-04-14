@@ -337,7 +337,8 @@ aside {
   text-align: center; }
 
 .clap h1 {
-  font-size: 18rem; }
+  font-size: 18rem;
+  line-height: 18rem; }
 
 @keyframes fadeAndScale {
   from {

@@ -300,6 +300,7 @@ function generateArticles(data, articleType, articleGroupSelector, articleClass)
     var upcomingEventHtml = "";
     var upcomingEventTemplate = document.getElementById('upcomingEventTemplate');
     var eventCount = 0;
+    var upcomingEventCount = 0;
 
     if (data[articleType]) {
         // how many articles of this type do we have?
@@ -313,6 +314,9 @@ function generateArticles(data, articleType, articleGroupSelector, articleClass)
                 var todayTimestamp = new Date().getTime();
                 var timeFromNow = (articleTimestamp - todayTimestamp);
                 data[articleType][i].upcoming = (timeFromNow > maxEventTime);
+                if(data[articleType][i].upcoming){
+                    upcomingEventCount++;
+                }
             } else {
                 allArticlesHtml += generateArticle(data, articleType, i, articleClass,'articleTemplate');
             }
@@ -324,7 +328,7 @@ function generateArticles(data, articleType, articleGroupSelector, articleClass)
 
     if (articleType == 'Event') {
         for (var i = 0; i < count; i++) {
-            if(data[articleType][i].upcoming){
+            if(data[articleType][i].upcoming && upcomingEventCount > 1){
                 upcomingEventHtml += generateArticle(data, articleType, i, articleClass,'upcomingEventTemplate');
             } else {
                 eventCount++;
