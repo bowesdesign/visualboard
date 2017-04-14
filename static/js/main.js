@@ -7,6 +7,7 @@ var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oc
 var dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 var currentIndex = -1;
 var lastGroupType = null;
+var createdGroupTitles = {};
 
 function getNextIndex(i, articles) {
     return i >= articles.length - 1 ? 0 : i + 1;
@@ -16,28 +17,63 @@ function getPrevIndex(i, articles) {
     return (i ? i : articles.length) - 1;
 }
 
-function updateArticleHeader(animateTitle) {
-    var $header = $('.article-header');
-    var $current = $('.current');
-    var $dotsContainer = $header.find('.dots-container');
-    var articleType = $current.data('type');
-    var articleCount = parseFloat($current.data('num'));
-    var articleIndex = parseFloat($current.data('index'));
+function updateArticleHeader(animateTitle, newCurrent, oldCurrent) {
 
-    if($dotsContainer.find('div').length != articleCount){
-        $dotsContainer.html('');
-        for(var i = 0; i < articleCount; i++){
-            $dotsContainer.append('<div class="dot"></div>');
+    if (animateTitle) {
+
+        var $group = newCurrent.closest('.articleGroup');
+        var $groupTitle = $group.find('.groupTitle');
+        var groupType = newCurrent.data('type');
+        var newArticleCount = parseFloat(newCurrent.data('num'));
+        if (!createdGroupTitles[groupType]) {
+            createdGroupTitles[groupType] = true;
+            $group.append('<div class="groupTitle flex-container"><h1 class="alignCenter question"> ' + groupType + 's<span class="count"><span>' + newArticleCount + '</span></span></h1></div>');
+            $groupTitle = $group.find('.groupTitle');
         }
+        oldCurrent.removeClass('current').addClass('previous');
+        $groupTitle.css({opacity: 0});
+
+        setTimeout(function () {
+            $groupTitle.addClass('animate');
+            $groupTitle.animate({opacity: 1}, 500, function () {
+                setTimeout(function () {
+                    newCurrent.addClass('current');
+                    $groupTitle.animate({opacity: 0}, 300, function () {
+                        updateArticleHeader(false);
+                        $groupTitle.removeClass('animate');
+                    })
+                }, 580);
+            });
+        }, 450);
+
+    } else {
+
+        var $header = $('.article-header');
+        var $current = $('.current');
+        var $dotsContainer = $header.find('.dots-container');
+        var articleType = $current.data('type');
+        var articleCount = parseFloat($current.data('num'));
+        var articleIndex = parseFloat($current.data('index'));
+
+        if ($dotsContainer.find('div').length != articleCount) {
+            $dotsContainer.html('');
+            for (var i = 0; i < articleCount; i++) {
+                $dotsContainer.append('<div class="dot"></div>');
+            }
+        }
+
+        $dotsContainer.toggleClass('single', articleCount == 1);
+
+        $dotsContainer.find('.dot--full').removeClass('dot--full');
+        $dotsContainer.find('.dot').eq(articleIndex).addClass('dot--full');
+
+        console.log(articleCount);
+
+        $header.toggleClass('article-header--active', articleCount > 0);
+        $header.find('h3').html(articleType);
+
     }
 
-    $dotsContainer.toggleClass('single',articleCount == 1);
-
-    $dotsContainer.find('.dot--full').removeClass('dot--full');
-    $dotsContainer.find('.dot').eq(articleIndex).addClass('dot--full');
-
-    $header.toggleClass('article-header--active',articleCount > 0);
-    $header.find('h3').html(articleType);
 }
 
 function changeCurrentArticle(mover) {
@@ -45,35 +81,46 @@ function changeCurrentArticle(mover) {
     var sections = ['events', 'interestings', 'helps', 'newFaces', 'countdown', 'clap'];
     var match = false;
     var animateTitle = false;
+    var newCurrent = null;
+    var oldCurrent = null;
     articles.each(function (i) {
         if ($(this).hasClass('current') && !match) {
             var newIndex = mover(i, articles);
-            var newCurrent = articles.eq(newIndex);
+            newCurrent = articles.eq(newIndex);
+            oldCurrent = $(this);
             var direction = newIndex - currentIndex;
             var group = newCurrent.closest('.articleGroup');
             var groupType = group.attr("class").split(' ')[1];
             var switchedType = false;
+
             sections.map(function (s) {
                 $('body').toggleClass('section--' + s, groupType == s);
-                if(groupType == s){
-                    if(groupType != lastGroupType){
+                if (groupType == s) {
+                    if (groupType != lastGroupType) {
                         lastGroupType = groupType;
                         switchedType = true;
                     }
                 }
             });
+
             $('body').toggleClass('moveRight', direction > 0);
             $('body').toggleClass('moveLeft', direction < 0);
-            $(this).removeClass('current').addClass('previous');
-            newCurrent.addClass('current');
-            animateTitle = parseFloat(newCurrent.data('num')) > 0;
+
+            animateTitle = direction > 0 && parseFloat(newCurrent.data('num')) > 0 && newCurrent.data('index') == '0';
+
+            if (!animateTitle) {
+                oldCurrent.removeClass('current').addClass('previous');
+                newCurrent.addClass('current');
+            }
+
             currentIndex = newIndex;
             match = true;
+            return;
         } else {
             $(this).removeClass('previous');
         }
     });
-    updateArticleHeader(animateTitle);
+    updateArticleHeader(animateTitle, newCurrent, oldCurrent);
 }
 
 function generateArticle(data, articleType, index, articleClass) {
