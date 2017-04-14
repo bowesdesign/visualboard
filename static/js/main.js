@@ -18,13 +18,14 @@ function getPrevIndex(i, articles) {
 }
 
 function updateArticleHeader(animateTitle, newCurrent, oldCurrent) {
-
     if (animateTitle) {
-
         var $group = newCurrent.closest('.articleGroup');
         var $groupTitle = $group.find('.groupTitle');
         var groupType = newCurrent.data('type');
         var newArticleCount = parseFloat(newCurrent.data('num'));
+        if(parseFloat($group.data('num')) > 0){
+            newArticleCount = parseFloat($group.data('num'));
+        }
         if (!createdGroupTitles[groupType]) {
             createdGroupTitles[groupType] = true;
             $group.append('<div class="groupTitle flex-container"><h1 class="alignCenter question"> ' + groupType + 's<span class="count"><span>' + newArticleCount + '</span></span></h1></div>');
@@ -45,30 +46,22 @@ function updateArticleHeader(animateTitle, newCurrent, oldCurrent) {
                 }, 580);
             });
         }, 450);
-
     } else {
-
         var $header = $('.article-header');
         var $current = $('.current');
         var $dotsContainer = $header.find('.dots-container');
         var articleType = $current.data('type');
         var articleCount = parseFloat($current.data('num'));
         var articleIndex = parseFloat($current.data('index'));
-
         if ($dotsContainer.find('div').length != articleCount) {
             $dotsContainer.html('');
             for (var i = 0; i < articleCount; i++) {
                 $dotsContainer.append('<div class="dot"></div>');
             }
         }
-
         $dotsContainer.toggleClass('single', articleCount == 1);
-
         $dotsContainer.find('.dot--full').removeClass('dot--full');
         $dotsContainer.find('.dot').eq(articleIndex).addClass('dot--full');
-
-        console.log(articleCount);
-
         $header.toggleClass('article-header--active', articleCount > 0);
         $header.find('h3').html(articleType);
 
@@ -123,9 +116,9 @@ function changeCurrentArticle(mover) {
     updateArticleHeader(animateTitle, newCurrent, oldCurrent);
 }
 
-function generateArticle(data, articleType, index, articleClass) {
+function generateArticle(data, articleType, index, articleClass, template) {
     // Find our template for all the article contents
-    var articleTemplate = document.getElementById('articleTemplate').innerHTML;
+    var articleTemplate = document.getElementById(template).innerHTML;
 
     // get the data for the requested type and position
     var articleData = data[articleType][index];
@@ -136,7 +129,16 @@ function generateArticle(data, articleType, index, articleClass) {
     var kind = articleData.kind;
     var date = articleData.date;
     var author = articleData.author ? 'Posted by ' + articleData.author : '';
+    var count = data[articleType].length;
 
+    if(articleType == 'Event'){
+        count = 1;
+        for(var i=0;i<data[articleType].length;i++){
+            if(!data[articleType][i].upcoming){
+                count++;
+            }
+        }
+    }
 
     // new faces don't have descriptions, so in this case show 'Welcome!' there
     if (articleType === 'New face' && description === null) {
@@ -148,7 +150,7 @@ function generateArticle(data, articleType, index, articleClass) {
         .replace("ARTICLE_TITLE", title)
         .replace("ARTICLE_CLASS", articleClass)
         .replace("ARTICLE_KIND", kind)
-        .replace("ARTICLE_COUNT", data[articleType].length)
+        .replace("ARTICLE_COUNT", count)
         .replace("ARTICLE_INDEX", index)
         .replace("ARTICLE_DATE", getFormattedArticleDate(date))
         .replace("ARTICLE_AUTHOR", author);
@@ -217,23 +219,60 @@ function generateGroupQuestion(groupType, groupClass, haveOthers) {
 
 function generateArticles(data, articleType, articleGroupSelector, articleClass) {
     var allArticlesHtml = "";
+    var upcomingEventHtml = "";
+    var upcomingEventTemplate = document.getElementById('upcomingEventTemplate');
+    var eventCount = 0;
 
     if (data[articleType]) {
         // how many articles of this type do we have?
         var count = data[articleType].length;
 
         for (var i = 0; i < count; i++) {
-            var articleHtml = generateArticle(data, articleType, i, articleClass);
-            allArticlesHtml += articleHtml;
+            var maxEventTime = 604800000 * 2; // two weeks
+            // check if event date is over max event time
+            if(articleType == 'Event'){
+                var articleTimestamp = new Date(data[articleType][i].date).getTime();
+                var todayTimestamp = new Date().getTime();
+                var timeFromNow = (articleTimestamp - todayTimestamp);
+                data[articleType][i].upcoming = (timeFromNow > maxEventTime);
+            } else {
+                allArticlesHtml += generateArticle(data, articleType, i, articleClass,'articleTemplate');
+            }
         }
     }
 
-    allArticlesHtml += generateGroupQuestion(articleType, articleClass, !!data[articleType]);
-
     // find the article group to add this article to
     var articleGroup = document.querySelector(articleGroupSelector);
+
+    if (articleType == 'Event') {
+        for (var i = 0; i < count; i++) {
+            if(data[articleType][i].upcoming){
+                upcomingEventHtml += generateArticle(data, articleType, i, articleClass,'upcomingEventTemplate');
+            } else {
+                eventCount++;
+                allArticlesHtml += generateArticle(data, articleType, i, articleClass,'articleTemplate');
+            }
+        }
+        articleGroup.dataset.num = count;
+    }
+
     // replace the article group's contents with this new article
     articleGroup.innerHTML = allArticlesHtml;
+
+    if (upcomingEventHtml) {
+        var upcomingEventsTemplate = document.getElementById('upcomingEventsTemplate').innerHTML;
+        var upcomingEventContent = upcomingEventsTemplate
+            .replace("UPCOMING_EVENTS", upcomingEventHtml)
+            .replace("ARTICLE_KIND", 'Event')
+            .replace("ARTICLE_COUNT", eventCount+1)
+            .replace("ARTICLE_INDEX", eventCount);
+
+        articleGroup.innerHTML += upcomingEventContent;
+
+    }
+
+    articleGroup.innerHTML += generateGroupQuestion(articleType, articleClass, !!data[articleType]);
+
 }
 
 function setCurrentArticle() {

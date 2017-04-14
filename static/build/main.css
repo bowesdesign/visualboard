@@ -401,7 +401,14 @@ aside {
   letter-spacing: .1rem;
   display: none; }
 
-.events .articleDate {
+.upcomingEvent {
+  margin-bottom: 4rem; }
+  .upcomingEvent .descriptionDrawer {
+    height: 0px;
+    overflow: hidden; }
+
+.events .articleDate,
+.upcomingEvents .articleDate {
   display: inline-block; }
 
 .question {

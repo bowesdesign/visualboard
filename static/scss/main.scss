@@ -409,7 +409,17 @@ aside {
   display: none;
 }
 
-.events .articleDate {
+.upcomingEvent {
+  margin-bottom:4rem;
+
+  .descriptionDrawer {
+    height: 0px;
+    overflow:hidden;
+  }
+}
+
+.events .articleDate,
+.upcomingEvents .articleDate {
   display: inline-block;
 }
 
