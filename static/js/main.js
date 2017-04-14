@@ -66,7 +66,6 @@ function updateArticleHeader(animateTitle, newCurrent, oldCurrent) {
         $header.find('h3').html(articleType);
 
     }
-
 }
 
 function changeCurrentArticle(mover) {
@@ -76,6 +75,7 @@ function changeCurrentArticle(mover) {
     var animateTitle = false;
     var newCurrent = null;
     var oldCurrent = null;
+    $('.previous').removeClass('previous');
     articles.each(function (i) {
         if ($(this).hasClass('current') && !match) {
             var newIndex = mover(i, articles);
@@ -109,8 +109,6 @@ function changeCurrentArticle(mover) {
             currentIndex = newIndex;
             match = true;
             return;
-        } else {
-            $(this).removeClass('previous');
         }
     });
     updateArticleHeader(animateTitle, newCurrent, oldCurrent);
@@ -170,16 +168,6 @@ function generateArticle(data, articleType, index, articleClass, template) {
             .replace("ARTICLE_DESCRIPTION", descriptionHtml)
             .replace("ARTICLE_IMAGE_STYLE", "display: none;");
     }
-}
-
-function makeDots(count, active) {
-    var html = '';
-    if (count > 1) {
-        for (var i = 1; i <= count; i++) {
-            html += '<div class="' + (i === active ? 'full' : 'empty') + '-circle"></div>';
-        }
-    }
-    return html;
 }
 
 function getFormattedArticleDate(date) {
@@ -311,7 +299,7 @@ function setStandupTime(startTime) {
 }
 
 function populateMetadata(data) {
-    $('.clap h1').text(data.closing_message);
+    $('.clap h1').text(data.closing_message ? data.closing_message : 'CLAP!');
     setStandupTime(data.start_time_string);
 }
 
